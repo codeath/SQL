@@ -12,3 +12,6 @@ SQL can do:
 * SQL可以更新表中的现有数据。   
 * SQL可以从数据库表中删除记录。    
 * SQL可以在数据库中设置用户的GRANT和REVOKE权限。      
+
+JDBC：在idea环境下使用mysql：
+1、配置mysql：下载mysql <a href = 'https://dev.mysql.com/downloads/file/?id=476477'>8.0.1</url>
