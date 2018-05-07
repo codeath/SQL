@@ -1,0 +1,14 @@
+SQL(Structured Query Language) 是一种ANSI(American National Standards Institute)标准的计算机语言    
+
+SQL can do:
+* SQL可以创建新的数据库及其对象（表，索引，视图，存储过程，函数和触发器）。    
+* SQL可以修改现有数据库的结构。    
+* SQL可以从数据库中删除（删除）对象。       
+* SQL可以TRUNCATE（删除）表中的所有记录。    
+* SQL可以对数据字典进行COMMENT。    
+* SQL可以RENAME一个对象。    
+* SQL可以从数据库中选择（检索）数据。   
+* SQL可以将数据插入到表中。    
+* SQL可以更新表中的现有数据。   
+* SQL可以从数据库表中删除记录。    
+* SQL可以在数据库中设置用户的GRANT和REVOKE权限。      
