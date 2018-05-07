@@ -14,4 +14,39 @@ SQL can do:
 * SQL可以在数据库中设置用户的GRANT和REVOKE权限。      
 
 JDBC：在idea环境下使用mysql：
-1、配置mysql：下载<a href="https://dev.mysql.com/downloads/file/?id=476477">MySQL</a>
+1、配置本地mysql环境：下载<a href="https://dev.mysql.com/downloads/file/?id=476477">MySQL</a>安装选项选择customer，里面包含有connector/J和
+其它一些扩展工具,这个也可以单独下载，安装完成后可以在本地启动mysql服务。
+2、配置工程的mysql环境：在上面的安装目录下有个mysql-connector-java-xxx.jar这个jar包，在需要sql的project中选择：Project Structure -> Platform
+Settings -> SDKS(下面是工程依赖的java类库|）->Classpath下选择右侧"+" -> Select Path(选中上述的安装目录下的jar包) ->ok 即可
+3、配置database：选择右侧的database -> " + " data source -> MySQL 填写完成基本信息 测试connection 连接上即可
+4、代码部分：
+<pre><code>
+import java.sql.*;
+
+public class TestJDBC {
+    public static void main(String[] args) {
+        Connection conn = null;
+        Statement statement = null;
+        ResultSet res = null;
+        String url = "jdbc:mysql://localhost:3306/tempt?useSSL=false";
+
+        try {
+            Driver driver = new com.mysql.cj.jdbc.Driver();
+            DriverManager.registerDriver(driver);
+            conn = DriverManager.getConnection(url);
+            statement = conn.createStatement();
+            res = statement.executeQuery("select * from tempt");
+            while (res.next()){
+                res.getString("temptno");
+                res.getInt("temptno");
+            }
+            res.close();
+            statement.close();
+            conn.close();
+        } catch (SQLException e) {
+
+        }
+    }
+}
+</code></pre>
+运行工程 "Process finished with exit code 0" 说明可以对指定数据库进行增删改查
