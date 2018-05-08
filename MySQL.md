@@ -35,6 +35,9 @@ SHOW TABLE STATUS from W3CSCHOOL LIKE 'W3Cschool%'\G;   # 加上 \G，查询结�
 	<tr> <td> DOUBLE </td> <td> 8 字节 </td> <td> (1.797 693 134 862 315 7 E+308，2.225 073 858 507 201 4 E-308)，0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308) </td> <td> 0，(2.225 073 858 507 201 4 E-308，1.797 693 134 862 315 7 E+308) </td> <td> 双精度<br>浮点数值 </td> </tr> 
 	<tr> <td> DECIMAL </td> <td> 对DECIMAL(M,D) ，如果M&gt;D，为M+2否则为D+2 </td> <td> 依赖于M和D的值 </td> <td> 依赖于M和D的值 </td> <td> 小数值 </td> </tr>
 </table>
+
+
+日期和时间类型：
 <table> 
  <tr> <th width="10%"> 类型 </th> <th width="10%"> 大小<br>(字节) </th> <th width="40%"> 范围 </th> <th> 格式 </th> <th> 用途 </th> </tr>
   <tr> <td width="10%"> DATE </td> <td width="10%"> 3 </td> <td width="40%"> 1000-01-01/9999-12-31 </td> <td> YYYY-MM-DD </td> <td> 日期值 </td> </tr> 
@@ -43,3 +46,20 @@ SHOW TABLE STATUS from W3CSCHOOL LIKE 'W3Cschool%'\G;   # 加上 \G，查询结�
   <tr> <td width="10%"> DATETIME </td> <td width="10%"> 8 </td> <td width="40%"> 1000-01-01 00:00:00/9999-12-31 23:59:59 </td> <td> YYYY-MM-DD HH:MM:SS </td> <td> 混合日期和时间值 </td> </tr>
   <tr> <td width="10%"> TIMESTAMP </td> <td width="10%"> 8 </td> <td width="40%"> 1970-01-01 00:00:00/2037 年某时 </td> <td> YYYYMMDD HHMMSS </td> <td> 混合日期和时间值，时间戳 </td> </tr>
 </table>
+
+
+字符串类型：
+<table> 
+	<tr> <th width="20%"> 类型 </th> <th width="25%"> 大小 </th> <th width="55%"> 用途 </th> </tr> 
+	<tr> <td> CHAR </td> <td> 0-255字节 </td> <td> 定长字符串 </td> </tr> 
+	<tr> <td> VARCHAR </td> <td> 0-65535 字节 </td> <td> 变长字符串 </td> </tr> 
+	<tr> <td> TINYBLOB </td> <td> 0-255字节 </td> <td> 不超过 255 个字符的二进制字符串 </td> </tr> 
+	<tr> <td> TINYTEXT </td> <td> 0-255字节 </td> <td> 短文本字符串 </td> </tr> 
+	<tr> <td> BLOB </td> <td> 0-65 535字节 </td> <td> 二进制形式的长文本数据 </td> </tr> 
+	<tr> <td> TEXT </td> <td> 0-65 535字节 </td> <td> 长文本数据 </td> </tr> 
+	<tr> <td> MEDIUMBLOB </td> <td> 0-16 777 215字节 </td> <td> 二进制形式的中等长度文本数据 </td> </tr> 
+	<tr> <td> MEDIUMTEXT </td> <td> 0-16 777 215字节 </td> <td> 中等长度文本数据 </td> </tr> 
+	<tr> <td> LOGNGBLOB </td> <td> 0-4 294 967 295字节 </td> <td> 二进制形式的极大文本数据 </td> </tr> 
+	<tr> <td> LONGTEXT </td> <td> 0-4 294 967 295字节 </td> <td> 极大文本数据 </td> </tr> 
+</table>
+	
