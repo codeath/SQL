@@ -11,18 +11,65 @@ SHOW DATABASES； 显示MySQL数据库管理系统的数据库列表；
 SHOW TABLES；  显示当前操作数据库的所有表 前提是使用过 USE    
 
 SHOW COLUMNS FROM 数据表； 显示数据表的属性，属性类型，主键信息 等一些信息
-
-创建表  CREATE TABLE user(username varchar(15), userpwd varchar(15), userno int(18));     
+- - -
+创建表  CREATE TABLE table_name(column_name colun_type);       
 列：属性选项 表结构         
-行：每一行就是一个表数据     
+行：每一行就是一个表数据 eg:    
+		CREATE TABLE user(
+			id INT NOT NULL AUTO_INCREMENT,
+			name VARCHAR(100) NOT NULL,
+			age INT(3) NOT NULL,
+			creat_date DATE,
+			PRIMARY KEY (id)
+		);
+* 如果你不想字段为 NULL 可以设置字段的属性为 NOT NULL， 在操作数据库时如果输入该字段的数据为NULL ，就会报错。    
+* AUTO_INCREMENT定义列为自增的属性，一般用于主键，数值会自动加1。    
+* PRIMARY KEY关键字用于定义列为主键。 您可以使用多列来定义主键，列间以逗号分隔    
 
-向表中添加行数据，插入动作  INSERT INTO user VALUES('John', 20, 411522199709003232);    
+DROP TABLE table_name;  删除表    
 
+INSERT INTO table_name ( field1, field2,...fieldN )
+                       VALUES
+                       ( value1, value2,...valueN ); 向表中添加行数据，插入动作     
+	eg：INSERT INTO user VALUES(1,"John",20,‘1000-01-01’); 
+* 如果数据是字符型，必须使用单引号或者双引号    
+
+SELECT column_name,column_name FROM table_name [WHERE condition1 [AND [OR]] condition2] [OFFSET M] [LIMIT N] 查询语句
+* 查询语句中你可以使用一个或者多个表，表之间使用逗号(,)分割，并使用WHERE语句来设定查询条件。
+* SELECT 命令可以读取一条或者多条记录。
+* 你可以使用星号（\*）来代替其他字段，SELECT语句会返回表的所有字段数据
+* 你可以使用 WHERE 语句来包含任何条件。
+* 你可以通过OFFSET指定SELECT语句开始查询的数据偏移量。默认情况下偏移量为0。
+* 你可以使用 LIMIT 属性来设定返回的记录数。
+eg: SELECT name,age FROM user WHERE name="Tom";    查找name值为Tom的数据返回由 name，age两个列组成的表，
 
 SHOW TABLE STATUS  FROM W3CSCHOOL;   # 显示数据库 W3CSCHOOL 中所有表的信息    
 SHOW TABLE STATUS from W3CSCHOOL LIKE 'W3Cschool%';     # 表名以W3Cschool开头的表的信息    
 SHOW TABLE STATUS from W3CSCHOOL LIKE 'W3Cschool%'\G;   # 加上 \G，查询结果按列打印    
 
+UPDATE table_name SET field1=new_value1,field2=new_value2 [WHERE Clause];
+* 可以同时更新一个或多个字段。
+* 可以在 WHERE 子句中指定任何条件。
+* 可以在一个单独表中同时更新数据。
+eg: UPDATE user SET age=40 WHERE id=1;
+
+DELETE FROM table_name [WHERE Clause];
+* 如果没有指定 WHERE 子句，MySQL表中的所有记录将被删除。
+* 可以在 WHERE 子句中指定任何条件
+* 可以在单个表中一次性删除记录。
+eg: DELETE FROM user WHERE id=2;
+
+SELECT field1, field2,...fieldN 
+FROM table_name1, table_name2...
+WHERE field1 LIKE condition1 [AND [OR]] filed2 = 'somevalue'
+* 可以在WHERE子句中指定任何条件。
+* 可以在WHERE子句中使用LIKE子句。
+* 使用LIKE子句代替等号(=)。
+* LIKE 通常与 % 一同使用，类似于一个元字符的搜索(类似 java 中 \*)。
+* 可以使用AND或者OR指定一个或多个条件。
+* 可以在 DELETE 或 UPDATE 命令中使用 WHERE...LIKE 子句来指定条件。
+eg: SELECT * FROM user WHERE name LIKE '%om';
+- - -   
 数据类型：
 <table>
 	<tr> <th width="10%"> <strong>类型 </strong></th> <th width="15%"> <strong>大小 </strong></th> <th width="30%"> <strong>范围（有符号） </strong></th> <th width="30%"> <strong>范围（无符号） </strong></th> <th width="15%"> <strong>用途 </strong></th> </tr>
