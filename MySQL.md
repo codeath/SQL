@@ -25,15 +25,16 @@ SHOW COLUMNS FROM 数据表； 显示数据表的属性，属性类型，主键�
 		);
 >* 如果你不想字段为 NULL 可以设置字段的属性为 NOT NULL， 在操作数据库时如果输入该字段的数据为NULL ，就会报错。    
 >* AUTO_INCREMENT定义列为自增的属性，一般用于主键，数值会自动加1。    
->* PRIMARY KEY关键字用于定义列为主键。 您可以使用多列来定义主键，列间以逗号分隔    
-> +----+-------+-----+-------------+--------+    
->| id | name  | age | create_date | signin |    
->+----+-------+-----+-------------+--------+    
->|  1 | John  |  20 | 2018-05-08  |      6 |    
->|  2 | Tom   |  25 | 2018-05-08  |      5 |    
->|  3 | Jerry |  30 | 1990-07-07  |     10 |    
->|  4 | Bob   |  25 | 2018-05-09  |      3 |    
->+----+-------+-----+-------------+--------+    
+>* PRIMARY KEY关键字用于定义列为主键。 您可以使用多列来定义主键，列间以逗号分隔  
+##user
++----+-------+-----+------------+-------------+--------+
+| id | name  | age | department | create_date | signin |
++----+-------+-----+------------+-------------+--------+
+|  1 | John  |  20 | security   | 2018-05-08  |      6 |
+|  2 | Tom   |  25 | finance    | 2018-05-08  |      5 |
+|  3 | Jerry |  30 | logistics  | 1990-07-07  |     10 |
+|  4 | Bob   |  25 | admin      | 2018-05-09  |      3 |
++----+-------+-----+------------+-------------+--------+ 
 - - -
 >DROP TABLE table_name;  删除表    
 - - -
@@ -90,15 +91,92 @@ WHERE field1 LIKE condition1 [AND [OR]] filed2 = 'somevalue';</b>
 ><b>GROUP BY</b>
 ><b>SELECT column_name, function(column_name) FROM table_name WHERE column_name operator value GROUP BY column_name;</b>
 >>eg: SELECT age, COUNT(\*) FROM user GROUP BY age;// 统计各年龄出现的次数  
->> +-----+----------+    
->> | age | COUNT(\*) |    
->> +-----+----------+    
->> |  20 |	   1 |    
->> |  25 |	   2 |    
->> |  30 |	   1 |    
->> +-----+----------+    
->>eg: SELECT age, SUM(column_name) as new_column_name FROM user GROUP BY age WITH ROLLUP; // 在按年龄统计基础上，再次统计column_name出现的
-次数和（此次展示列field = new_column_name)
+ +-----+----------+    
+ | age | COUNT(\*) |    
+ +-----+----------+    
+ |  20 |	 1 |    
+ |  25 |         2 |    
+ |  30 |	 1 |    
+ +-----+----------+    
+>><b>SELECT age, SUM(column_name) as new_column_name FROM user GROUP BY age WITH ROLLUP;</b> // 在按年龄统计基础上，再次统计column_name出现的次数和（此次展示列field = new_column_name)
+>>eg: SELECT age,SUM(signin) AS signinsum FROM user GROUP BY age WITH ROLLUP;
++-----+-----------+
+| age | signinsum |
++-----+-----------+
+|  20 |         6 |
+|  25 |         8 |
+|  30 |        10 |
+| NULL |        24 |
++-----+-----------+
+>>eg:SELECT coalesce(name, '总数'), SUM(singin) as singin_count FROM  employee_tbl GROUP BY name WITH ROLLUP;
+>>coalesce(a,b,c);如果a==null,则选择b；如果b==null,则选择c；如果a!=null,则选择a；如果a b c 都为null ，则返回为null（没意义）。    
++------------------------+-----------+
+| coalesce(age,'allAge') | signinsum |
++------------------------+-----------+
+| 20                     |         6 |
+| 25                     |         8 |
+| 30                     |        10 |
+| allAge                 |        24 |
++------------------------+-----------+
+- - -
+><b>MySQL连接使用</b>
+>##department
++----+------------+----------------+   
+| id | department | func           |    
++----+------------+----------------+    
+|  1 | security   | protect        |    
+|  2 | finance    | finance stream |    
+|  3 | logisitics | employ         |    
+|  4 | admin      | boss           |    
++----+------------+----------------+    
+>JOIN 按照功能大致分为如下三类：
+>* [[INNER] JOIN]（内连接,或等值连接）：获取两个表中字段匹配关系的记录。
+>* LEFT JOIN（左连接）：获取左表所有记录，即使右表没有对应匹配的记录(返回NULL)。
+>* RIGHT JOIN（右连接）： 与 LEFT JOIN 相反，用于获取右表所有记录，即使左表没有对应匹配的记录（用NULL填充）。
+>>eg:SELECT a.id,a.name,a.department,b.func FROM user a JOIN chair b ON a.department=b.department;
++----+------+------------+----------------+    
+| id | name | department | func           |    
++----+------+------------+----------------+    
+|  1 | John | security   | protect        |    
+|  2 | Tom  | finance    | finance stream |    
+|  4 | Bob  | admin      | boss           |    
++----+------+------------+----------------+    
+>>eg:SELECT a.id,a.name,a.department,b.func FROM user a LEFT JOIN chair b ON a.department=b.department;    
++----+-------+------------+----------------+    
+| id | name  | department | func           |    
++----+-------+------------+----------------+    
+|  1 | John  | security   | protect        |    
+|  2 | Tom   | finance    | finance stream |    
+|  4 | Bob   | admin      | boss           |    
+|  3 | Jerry | logistics  | NULL           |    
++----+-------+------------+----------------+    
+>>eg:SELECT a.id,a.name,a.department,b.func FROM user a RIGHT JOIN chair b ON a.department=b.department;    
++------+------+------------+----------------+    
+| id   | name | department | func           |    
++------+------+------------+----------------+    
+|    1 | John | security   | protect        |    
+|    2 | Tom  | finance    | finance stream |    
+|    4 | Bob  | admin      | boss           |    
+| NULL | NULL | NULL       | employ         |    
++------+------+------------+----------------+    
+- - -
+><b>MySQL中的NULL：</b>    
+>* IS NULL: 当列的值是NULL,此运算符返回true。    
+>* IS NOT NULL: 当列的值不为NULL, 运算符返回true。    
+>* <=>: 比较操作符（不同于=运算符），当比较的的两个值为NULL时返回true。    
+>* MySQL中，NULL值与任何其它值的比较（即使是NULL）永远返回false.    
+- - -
+>MySQL中的 REGEXP
+>SELECT name FROM user WHERE name REGEXP '^t'; //模糊匹配，不区分大小写；类似于
+>SELECT name FROM user WHERE name LIKE "t%";
+- - -
+><b>MySQL ALTER</b>    
+>ALTER TABLE table_name DROP field;//删除字段        
+>ALTER TABLE table_name ADD field type [FIRST [AFTER field]];//增加字段        
+>ALTER TABLE table_name MODIFY field type;//修改字段类型        
+>ALTER TABLE table_name CHANGE field newfied[field] type;//修改字段类型及名称    
+>ALTER TABLE table_name ALTER field SET DEFAULT value; //修改字段默认值        
+>AlTER TABLE table_name RENAME TO new_table_name;    
 - - -
 数据类型：
 <table>
