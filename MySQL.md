@@ -26,15 +26,15 @@ SHOW COLUMNS FROM 数据表； 显示数据表的属性，属性类型，主键�
 >* 如果你不想字段为 NULL 可以设置字段的属性为 NOT NULL， 在操作数据库时如果输入该字段的数据为NULL ，就会报错。    
 >* AUTO_INCREMENT定义列为自增的属性，一般用于主键，数值会自动加1。    
 >* PRIMARY KEY关键字用于定义列为主键。 您可以使用多列来定义主键，列间以逗号分隔  
-##user
-+----+-------+-----+------------+-------------+--------+
-| id | name  | age | department | create_date | signin |
-+----+-------+-----+------------+-------------+--------+
-|  1 | John  |  20 | security   | 2018-05-08  |      6 |
-|  2 | Tom   |  25 | finance    | 2018-05-08  |      5 |
-|  3 | Jerry |  30 | logistics  | 1990-07-07  |     10 |
-|  4 | Bob   |  25 | admin      | 2018-05-09  |      3 |
-+----+-------+-----+------------+-------------+--------+ 
+##user    
++----+-------+-----+------------+-------------+--------+    
+| id | name  | age | department | create_date | signin |    
++----+-------+-----+------------+-------------+--------+    
+|  1 | John  |  20 | security   | 2018-05-08  |      6 |    
+|  2 | Tom   |  25 | finance    | 2018-05-08  |      5 |    
+|  3 | Jerry |  30 | logistics  | 1990-07-07  |     10 |    
+|  4 | Bob   |  25 | admin      | 2018-05-09  |      3 |    
++----+-------+-----+------------+-------------+--------+     
 - - -
 >DROP TABLE table_name;  删除表    
 - - -
@@ -90,7 +90,7 @@ WHERE field1 LIKE condition1 [AND [OR]] filed2 = 'somevalue';</b>
 - - -
 ><b>GROUP BY</b>
 ><b>SELECT column_name, function(column_name) FROM table_name WHERE column_name operator value GROUP BY column_name;</b>
->>eg: SELECT age, COUNT(\*) FROM user GROUP BY age;// 统计各年龄出现的次数  
+>>eg: SELECT age, COUNT(\*) FROM user GROUP BY age;// 统计各年龄出现的次数      
  +-----+----------+    
  | age | COUNT(\*) |    
  +-----+----------+    
@@ -99,28 +99,28 @@ WHERE field1 LIKE condition1 [AND [OR]] filed2 = 'somevalue';</b>
  |  30 |	 1 |    
  +-----+----------+    
 >><b>SELECT age, SUM(column_name) as new_column_name FROM user GROUP BY age WITH ROLLUP;</b> // 在按年龄统计基础上，再次统计column_name出现的次数和（此次展示列field = new_column_name)
->>eg: SELECT age,SUM(signin) AS signinsum FROM user GROUP BY age WITH ROLLUP;
-+-----+-----------+
-| age | signinsum |
-+-----+-----------+
-|  20 |         6 |
-|  25 |         8 |
-|  30 |        10 |
-| NULL |        24 |
-+-----+-----------+
+>>eg: SELECT age,SUM(signin) AS signinsum FROM user GROUP BY age WITH ROLLUP;    
++-----+-----------+    
+| age | signinsum |    
++-----+-----------+    
+|  20 |         6 |    
+|  25 |         8 |    
+|  30 |        10 |    
+| NULL |        24 |    
++-----+-----------+    
 >>eg:SELECT coalesce(name, '总数'), SUM(singin) as singin_count FROM  employee_tbl GROUP BY name WITH ROLLUP;
->>coalesce(a,b,c);如果a==null,则选择b；如果b==null,则选择c；如果a!=null,则选择a；如果a b c 都为null ，则返回为null（没意义）。    
-+------------------------+-----------+
-| coalesce(age,'allAge') | signinsum |
-+------------------------+-----------+
-| 20                     |         6 |
-| 25                     |         8 |
-| 30                     |        10 |
-| allAge                 |        24 |
-+------------------------+-----------+
+>>coalesce(a,b,c);如果a==null,则选择b；如果b==null,则选择c；如果a!=null,则选择a；如果a b c 都为null ，则返回为null（没意义）。        
++------------------------+-----------+    
+| coalesce(age,'allAge') | signinsum |    
++------------------------+-----------+    
+| 20                     |         6 |    
+| 25                     |         8 |    
+| 30                     |        10 |    
+| allAge                 |        24 |    
++------------------------+-----------+    
 - - -
 ><b>MySQL连接使用</b>
->##department
+>##department   
 +----+------------+----------------+   
 | id | department | func           |    
 +----+------------+----------------+    
@@ -133,7 +133,7 @@ WHERE field1 LIKE condition1 [AND [OR]] filed2 = 'somevalue';</b>
 >* [[INNER] JOIN]（内连接,或等值连接）：获取两个表中字段匹配关系的记录。
 >* LEFT JOIN（左连接）：获取左表所有记录，即使右表没有对应匹配的记录(返回NULL)。
 >* RIGHT JOIN（右连接）： 与 LEFT JOIN 相反，用于获取右表所有记录，即使左表没有对应匹配的记录（用NULL填充）。
->>eg:SELECT a.id,a.name,a.department,b.func FROM user a JOIN chair b ON a.department=b.department;
+>>eg:SELECT a.id,a.name,a.department,b.func FROM user a JOIN chair b ON a.department=b.department;    
 +----+------+------------+----------------+    
 | id | name | department | func           |    
 +----+------+------------+----------------+    
@@ -141,7 +141,7 @@ WHERE field1 LIKE condition1 [AND [OR]] filed2 = 'somevalue';</b>
 |  2 | Tom  | finance    | finance stream |    
 |  4 | Bob  | admin      | boss           |    
 +----+------+------------+----------------+    
->>eg:SELECT a.id,a.name,a.department,b.func FROM user a LEFT JOIN chair b ON a.department=b.department;    
+>>eg:SELECT a.id,a.name,a.department,b.func FROM user a LEFT JOIN chair b ON a.department=b.department;        
 +----+-------+------------+----------------+    
 | id | name  | department | func           |    
 +----+-------+------------+----------------+    
