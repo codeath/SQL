@@ -69,6 +69,8 @@ crash ：
 >* Establishing SSL connection without server's identity verification is not recommended. 
 >>* 解决办法："jdbc:mysql://localhost:3306/world?useSSL=false"
 >* The server time zone value 'ÖÐ¹ú±ê×¼Ê±¼ä' is unrecognized or represents more than one time zone.
->>* 解决办法："jdbc:mysql://localhost:3306/world?useSSL=false&serverTimezone=UTC"
+>>* 解决办法："jdbc:mysql://localhost:3306/world?useSSL=false&serverTimezone=UTC"    
+>* Bug #75670 Connection fails with "Public Key Retrieval is not allowed" for native auth // 不明所以突然出现
+>>* <a href="https://bugs.mysql.com/bug.php?id=75670">fix</a> 
 
 
